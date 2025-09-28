@@ -1,7 +1,7 @@
 package Day3.constructor;
 
 public class Customer {
-	 private String customerName;
+	private String customerName;
 	 private int customerId;
 	 private String customerCity;
 	 

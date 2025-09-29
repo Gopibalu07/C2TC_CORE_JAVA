@@ -33,7 +33,6 @@ public class ConstructorDemo {
 		sc.nextLine();
 		System.out.print("Enter Customer Name : ");
 		name=sc.nextLine();
-		
 		System.out.print("Enter Customer City : ");
 		city=sc.nextLine();
 		

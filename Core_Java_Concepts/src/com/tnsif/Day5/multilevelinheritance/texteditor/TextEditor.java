@@ -10,7 +10,7 @@ public class TextEditor {
 		word.write("World!");
 		word.displayContent();
 
-		word.spellCheck();
+		word.spellCheck();  
 
 		System.out.println("Is text in Wordpad bold? " + word.isBold());
 		System.out.println("Disabling spell check in Word.");

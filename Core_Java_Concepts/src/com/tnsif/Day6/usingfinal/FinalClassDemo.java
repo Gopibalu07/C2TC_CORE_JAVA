@@ -17,6 +17,10 @@ public class FinalClassDemo {
 		// Create the object of final class
 		FinalClass f1 = new FinalClass(); // Call show() method using object reference variable ab.
 		f1.show();
+		FinalVariable f2 = new FinalVariable();
+		System.out.println(f2);
+		FinalMethodClass f3 = new FinalMethodClass();
+		System.out.println(f3);
 
 	}
 

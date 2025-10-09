@@ -25,6 +25,7 @@ public class Base {
 		System.out.println("Public Variable : "+varPublic);
 	}
 	
+	@SuppressWarnings("unused")
 	private void methodPrivate()
 	{
 		System.out.println("Private access Base class");

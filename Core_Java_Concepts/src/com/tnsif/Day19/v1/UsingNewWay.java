@@ -31,7 +31,7 @@ public class UsingNewWay {
 				System.out.println("Division is "+opr.performArithmetic(10,5));
 				
 				//check for String Palindrome
-				Palindrome<String> strPalin;
+				Palindrome strPalin;
 				strPalin=(data)->
 				{
 					String revData=new StringBuffer(data).reverse().toString();
@@ -41,7 +41,7 @@ public class UsingNewWay {
 				System.out.println("Is RACECAR Palindrome? : "+strPalin.checkPalindrome("RACECAR"));
 				
 				//check for Number Palindrome
-				Palindrome<Integer> intPalin;
+				Palindrome intPalin;
 				intPalin=(data) ->
 				{
 					int rev=0, no=data;

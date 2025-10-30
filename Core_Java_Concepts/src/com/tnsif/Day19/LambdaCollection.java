@@ -14,7 +14,7 @@ public class LambdaCollection {
 		list.add(20);
 		list.add(50);
 		
-		// Traversing using foreach
+		
 		for (Integer element : list) {
 			System.out.println(element);
 		}

@@ -1,7 +1,7 @@
 package com.tnsif.Day19;
 
 public class Student {
-	public class Student {
+
 		private int rollNo;
 		private String name;
 		private float per;
@@ -48,4 +48,4 @@ public class Student {
 		}
 
 	}
-}
+

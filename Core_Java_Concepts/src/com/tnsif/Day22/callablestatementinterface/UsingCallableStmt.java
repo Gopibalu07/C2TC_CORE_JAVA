@@ -2,89 +2,82 @@ package com.tnsif.Day22.callablestatementinterface;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class UsingCallableStmt {
 
-	private static CallableStatement cs = null;
-	private static Statement st = null;
-	private static Connection connection;
-	static {
-		connection = DBUtil.getConnection();
-		if (connection != null)
-			System.out.println("JDBC:connection is taken..");
+    private static CallableStatement cs = null;
+    private static Statement st = null;
+    private static Connection connection;
 
-	}
+    // Static block to establish connection once
+    static {
+        connection = DBUtil.getConnection();
+        if (connection != null)
+            System.out.println("✅ JDBC: Connection established successfully.");
+        else
+            System.err.println("❌ JDBC: Connection failed.");
+    }
 
-	static int createProcedure() {
-		int n = 0;
-		try {
-			String sql = "CREATE or replace DEFINER=`root`@`localhost` PROCEDURE `addEmp`()\r\n" + "BEGIN\r\n"
-					+ "INSERT INTO `test`.`emp`(`id`,`name`,`salary`)\r\n" + "VALUES(8,'Sharath',34000);\r\n"
-					+ "INSERT INTO `test`.`emp`(`id`,`name`,`salary`)\r\n" + "VALUES(9,'Shirish',76000);\r\n"
-					+ "INSERT INTO `test`.`emp`(`id`,`name`,`salary`)\r\n" + "VALUES(10,'Shraddha',37000);\r\n" + "END";
+    // Create stored procedure in PostgreSQL
+    static int createProcedure1() {
+        int n = 0;
+        try {
+            String sql = """
+                CREATE OR REPLACE PROCEDURE addemployee(
+                    IN emp_id INT,
+                    IN emp_name VARCHAR,
+                    IN emp_salary DOUBLE PRECISION
+                )
+                LANGUAGE plpgsql
+                AS $$
+                BEGIN
+                    INSERT INTO employee_tb (id, name, salary)
+                    VALUES (emp_id, emp_name, emp_salary);
+                END;
+                $$;
+                """;
 
-			st = connection.createStatement();
-			n = st.executeUpdate(sql);
+            st = connection.createStatement();
+            st.execute(sql);
+            System.out.println("✅ Procedure 'addemployee' created successfully.");
+            n = 1;
 
-		} catch (SQLException e) {
-			System.err.println("Error : " + e.getMessage());
-		}
-		return n;
-	}
+        } catch (SQLException e) {
+            System.err.println("⚠️ Error creating procedure: " + e.getMessage());
+        }
+        return n;
+    }
 
-	static int callProcedure() {
-		int n = 0;
-		try {
+    // Call the stored procedure
+    static int callProcedure1(int id, String name, double salary) {
+        int n = 0;
+        try {
+            // PostgreSQL requires CALL, not {call ...}
+            cs = connection.prepareCall("CALL addemployee(?, ?, ?)");
+            cs.setInt(1, id);
+            cs.setString(2, name);
+            cs.setDouble(3, salary);
+            cs.execute();
+            System.out.println("✅ Procedure executed successfully for: " + name);
+            n = 1;
 
-			cs = (CallableStatement) connection.prepareCall("{call addEmp()}");
-			n = cs.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("❌ Error executing procedure: " + e.getMessage());
+        }
+        return n;
+    }
 
-		} catch (SQLException e) {
-			System.err.println("Error : " + e.getMessage());
-		}
-		return n;
-	}
-
-	static int createProcedure1() {
-		int n = 0;
-		try {
-			String sql = "CREATE DEFINER=`root`@`localhost` PROCEDURE `addEmployee`(id int, name varchar(50), salary double )\r\n"
-					+ "BEGIN\r\n" + "insert into emp values(id,name,salary);\r\n" + "END";
-			st = connection.createStatement();
-			n = st.executeUpdate(sql);
-
-		} catch (SQLException e) {
-			System.err.println("Error : " + e.getMessage());
-		}
-		return n;
-	}
-
-	static int callProcedure1(int id, String name, double salary) {
-		int n = 0;
-		try {
-
-			cs = (CallableStatement) connection.prepareCall("{call addEmployee(?,?,?)}");
-			cs.setInt(1, id);
-			cs.setString(2, name);
-			cs.setDouble(3, salary);
-			n = cs.executeUpdate();
-
-		} catch (SQLException e) {
-			System.err.println("Error : " + e.getMessage());
-		}
-		return n;
-	}
-
-	static void closeConnection() {
-
-		try {
-			connection.close();
-			cs.close();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-	}
+    // Close all resources
+    static void closeConnection() {
+        try {
+            if (cs != null) cs.close();
+            if (st != null) st.close();
+            if (connection != null) connection.close();
+            System.out.println("🔒 Connection closed successfully.");
+        } catch (Exception e) {
+            System.err.println("⚠️ Error closing connection: " + e.getMessage());
+        }
+    }
 }

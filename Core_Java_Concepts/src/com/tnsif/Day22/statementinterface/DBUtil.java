@@ -6,10 +6,10 @@ import java.sql.SQLException;
 
 public class DBUtil {
 	private static Connection cn;
-	private static final String DB_DRIVER_CLASS="com.mysql.cj.jdbc.Driver";
-	private static final String DB_USERNAME="root";
-	private static final String DB_PASSWORD="Kvlv!@204";
-	private static final String DB_URL ="jdbc:mysql://localhost:3306/db_tns";
+	private static final String DB_DRIVER_CLASS="org.postgresql.Driver";
+	private static final String DB_USERNAME="postgres";
+	private static final String DB_PASSWORD="Gopi0708@";
+	private static final String DB_URL ="jdbc:postgresql://localhost:5432/Employee_db";
 	public static Connection getConnetion() {
 		try {
 			Class.forName(DB_DRIVER_CLASS);// to load database driver

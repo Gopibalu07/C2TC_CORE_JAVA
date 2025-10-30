@@ -14,7 +14,7 @@ public class EmployeeService {
 		con=com.tnsif.Day22.v1.usingpreparedstatement.DBUtil.getCn();
 		try {
 			st=con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			rs=st.executeQuery("SELECT * FROM employee");
+			rs=st.executeQuery("SELECT * FROM employee_tb");
 			rs.next();
 			//display();
 		} catch (SQLException e) {
